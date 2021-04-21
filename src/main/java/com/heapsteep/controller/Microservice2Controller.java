@@ -38,7 +38,7 @@ public class Microservice2Controller {
 	public Microservice2 calculateFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 		Microservice2 microservice2 = proxy.getValue(from, to);
 		
-		return new Microservice2(microservice2.getId(), from, to, microservice2.getConversionMultiple(),microservice2.getEnvironment(), quantity, quantity.multiply(microservice2.getConversionMultiple())  );		
+		return new Microservice2(microservice2.getId(), from, to, microservice2.getConversionMultiple(),microservice2.getEnvironment() + " feign", quantity, quantity.multiply(microservice2.getConversionMultiple())  );		
 	}
 
 }
