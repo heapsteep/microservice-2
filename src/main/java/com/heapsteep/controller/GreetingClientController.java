@@ -1,0 +1,50 @@
+package com.heapsteep.controller;
+
+import com.heapsteep.client.feign.Microservice1FeignClient;
+import com.heapsteep.client.httpinterface.Microservice1HttpInterfaceClient;
+import com.heapsteep.client.resttemplate.Microservice1RestTemplateClient;
+import com.heapsteep.client.webclient.Microservice1WebClient;
+import com.heapsteep.model.GreetingResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/clients")
+public class GreetingClientController {
+
+	private final Microservice1RestTemplateClient restTemplateClient;
+	private final Microservice1WebClient webClient;
+	private final Microservice1FeignClient feignClient;
+	private final Microservice1HttpInterfaceClient httpInterfaceClient;
+
+	public GreetingClientController(Microservice1RestTemplateClient restTemplateClient,
+	                                Microservice1WebClient webClient, Microservice1FeignClient feignClient,
+	                                Microservice1HttpInterfaceClient httpInterfaceClient) {
+		this.restTemplateClient = restTemplateClient;
+		this.webClient = webClient;
+		this.feignClient = feignClient;
+		this.httpInterfaceClient = httpInterfaceClient;
+	}
+
+	@GetMapping("/rest-template/{name}")
+	public GreetingResponse getGreetingViaRestTemplate(@PathVariable String name) {
+		return restTemplateClient.getGreeting(name);
+	}
+
+	@GetMapping("/webclient/{name}")
+	public GreetingResponse getGreetingViaWebClient(@PathVariable String name) {
+		return webClient.getGreeting(name);
+	}
+
+	@GetMapping("/feign/{name}")
+	public GreetingResponse getGreetingViaFeign(@PathVariable String name) {
+		return feignClient.getGreeting(name);
+	}
+
+	@GetMapping("/http-interface/{name}")
+	public GreetingResponse getGreetingViaHttpInterface(@PathVariable String name) {
+		return httpInterfaceClient.getGreeting(name);
+	}
+}
