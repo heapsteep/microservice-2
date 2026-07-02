@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "microservice-1", url = "${microservice1.base-url}")
+@FeignClient(name = "${microservice-1.service-id}")
 public interface Microservice1FeignClient {
 
 	@GetMapping("/api/greetings/{name}")
