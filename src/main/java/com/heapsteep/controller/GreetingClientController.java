@@ -1,10 +1,10 @@
 package com.heapsteep.controller;
 
-import com.heapsteep.client.feign.Microservice1FeignClient;
 import com.heapsteep.client.httpinterface.Microservice1HttpInterfaceClient;
 import com.heapsteep.client.resttemplate.Microservice1RestTemplateClient;
 import com.heapsteep.client.webclient.Microservice1WebClient;
 import com.heapsteep.model.GreetingResponse;
+import com.heapsteep.service.FeignGreetingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +20,15 @@ public class GreetingClientController {
 
 	private final Microservice1RestTemplateClient restTemplateClient;
 	private final Microservice1WebClient webClient;
-	private final Microservice1FeignClient feignClient;
+	private final FeignGreetingService feignGreetingService;
 	private final Microservice1HttpInterfaceClient httpInterfaceClient;
 
 	public GreetingClientController(Microservice1RestTemplateClient restTemplateClient,
-	                                Microservice1WebClient webClient, Microservice1FeignClient feignClient,
+	                                Microservice1WebClient webClient, FeignGreetingService feignGreetingService,
 	                                Microservice1HttpInterfaceClient httpInterfaceClient) {
 		this.restTemplateClient = restTemplateClient;
 		this.webClient = webClient;
-		this.feignClient = feignClient;
+		this.feignGreetingService = feignGreetingService;
 		this.httpInterfaceClient = httpInterfaceClient;
 	}
 
@@ -47,7 +47,7 @@ public class GreetingClientController {
 	@GetMapping("/feign/{name}")
 	public GreetingResponse getGreetingViaFeign(@PathVariable String name) {
 		log.info("Calling microservice-1 via Feign for name={}", name);
-		return feignClient.getGreeting(name);
+		return feignGreetingService.getGreeting(name);
 	}
 
 	@GetMapping("/http-interface/{name}")
